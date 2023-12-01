@@ -6,8 +6,6 @@ RUN apt-get update \
     && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-FROM base AS build
-
 RUN apt-get update \
     && apt-get install -y build-essential \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -15,10 +13,9 @@ RUN apt-get update \
 # Install python requirements
 RUN pip install pipenv ansible-core
 
-FROM base
-
-RUN groupadd --gid 1000 podman \
-    && useradd --gid podman --uid 1000 --shell /bin/bash --create-home podman \
+# uid 1001 to be compatible with the default GitHub action user
+RUN groupadd --gid 1001 podman \
+    && useradd --gid podman --uid 1001 --shell /bin/bash --create-home podman \
     && chown --recursive podman:podman /home/podman
 ENV USER=podman
 
@@ -27,9 +24,6 @@ COPY podman.conf /etc/containers/containers.conf
 RUN apt-get update \
     && apt-get install -y net-tools git \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-COPY --from=build /usr/local/bin /usr/local/bin
-COPY --from=build /usr/local/lib/python3.11/dist-packages /usr/local/lib/python3.11/dist-packages
 
 USER podman
 RUN ansible-galaxy collection install containers.podman
