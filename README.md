@@ -2,7 +2,9 @@
 
 For automated molecule tests for ansible I use this images for an easy use in my ansible projects.
 
-## Usage
+## Molecule Images
+
+### Usage
 
 The images are build automatically from the `main` branch.
 
@@ -28,7 +30,7 @@ platforms:
     pre_build_image: true
 ```
 
-## Rootless user
+### Rootless user
 
 To test you roles and playbooks with an non-root user you can use the user `rootless` with uid `1000`.
 
@@ -38,3 +40,21 @@ provisioner:
   connection_options:
     ansible_ssh_user: rootless
 ```
+
+## CI Image
+
+To be able to have working podman molecule environment a container images is also available.
+It already contains a pre-installed python, pipenv environment and the ansible-galaxy podman collection.
+
+It can be used like that in GitHub Actions:
+
+```yaml
+jobs:
+  build:
+    name: Check with molecule
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/poeschl/molecule-test-image:ci
+```
+
+See also the [living example](https://github.com/Poeschl/ansible-collection/blob/main/.github/workflows/molecule-tests.yaml).
