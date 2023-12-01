@@ -40,21 +40,3 @@ provisioner:
   connection_options:
     ansible_ssh_user: rootless
 ```
-
-## CI Image
-
-To be able to have working podman molecule environment a container images is also available.
-It already contains a pre-installed python, pipenv environment and the ansible-galaxy podman collection.
-
-It can be used like that in GitHub Actions:
-
-```yaml
-jobs:
-  build:
-    name: Check with molecule
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/poeschl/molecule-test-image:ci
-```
-
-See also the [living example](https://github.com/Poeschl/ansible-collection/blob/main/.github/workflows/molecule-tests.yaml).
