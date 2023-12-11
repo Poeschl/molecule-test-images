@@ -17,6 +17,7 @@ Available facets
 
 * `basic` - just a basic os installation with minimalistic tools
 * `with_docker` - same as `basic` + docker and docker-compose install
+* `with_podman` - same as `basic` + podman and podman-compose install
 
 All combinations can be retrieved with the following way in your `molecule.yaml`.
 The image has the pattern `{{ os }}-{{ facet }}` for its tags.

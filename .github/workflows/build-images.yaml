@@ -17,6 +17,7 @@ jobs:
         target:
           - basic
           - with_docker
+          - with_podman
     steps:
       - name: ↩️ Checkout
         uses: actions/checkout@v4

@@ -30,3 +30,10 @@ RUN mkdir -p /etc/apt/keyrings \
     && systemctl enable docker \
     && usermod -a -G docker rootless
 RUN pip install --no-cache-dir --break-system-packages docker docker-compose PyYAML==5.3.1
+
+FROM basic as with_podman
+
+RUN apt-get update \
+    && apt-get install -y podman python3-pip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN pip install --no-cache-dir --break-system-packages podman-compose
